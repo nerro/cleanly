@@ -7,6 +7,12 @@ go:
 install:
   - go get -u github.com/magefile/mage
 
+stages:
+  - name: Test
+    if: branch = master AND tag IS blank
+  - name: GitHub Release
+    if: branch = master AND type IS push AND tag NOT blank
+
 jobs:
   include:
     - stage: Test
