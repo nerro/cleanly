@@ -10,7 +10,7 @@ install:
 jobs:
   include:
     - stage: test
-      script: mage check
+      script: mage build
     - stage: release
       if: branch = master AND tag IS present
       script: mage release
