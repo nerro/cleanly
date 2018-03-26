@@ -10,10 +10,10 @@ install:
 jobs:
   include:
     - stage: Test
-      if: (branch = master) AND (tag IS blank)
+      if: (branch = master) AND env(TRAVIS_TAG) IS blank
       script: mage build
     - stage: GitHub Release
-      if: (branch = master) AND (tag NOT blank)
+      if: (branch = master) AND env(TRAVIS_TAG) NOT blank
       script: mage release
       deploy:
         provider: releases
