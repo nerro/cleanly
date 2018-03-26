@@ -13,7 +13,7 @@ jobs:
       if: branch = master AND tag !~ ^v
       script: mage build
     - stage: GitHub Release
-      if: branch = master AND type IS push AND tag NOT blank
+      if: branch = master AND type IS push AND tag !~ ^v
       script: mage release
       deploy:
         provider: releases
