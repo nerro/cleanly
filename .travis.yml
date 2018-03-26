@@ -13,7 +13,7 @@ jobs:
       if: (branch = master) AND (tag IS blank)
       script: mage build
     - stage: GitHub Release
-      if: (branch = master) AND (tag NOT blank) AND (type IS push)
+      if: (branch = master) AND (NOT (tag IS blank))
       script: mage release
       deploy:
         provider: releases
