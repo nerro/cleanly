@@ -7,16 +7,12 @@ go:
 before_script:
   - go get -u github.com/magefile/mage
 
-stages:
-  - name: build
-  - name: release
-    if: branch = master AND tag IS present
-
 jobs:
   include:
     - stage: build
       script: mage build
     - stage: release
+      script: skip
       deploy:
         provider: releases
         script: mage release
