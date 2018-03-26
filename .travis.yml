@@ -1,0 +1,11 @@
+sudo: false
+language: go
+
+go:
+  - "1.10"
+
+before_script:
+  - go get -u github.com/magefile/mage
+
+script:
+  - mage build
