@@ -8,14 +8,11 @@ cache:
   directories:
     - vendor
 
-install:
-  - go get -u github.com/magefile/mage
+install: "go get -u github.com/magefile/mage"
 
-script:
-  - mage build
+script: "mage build"
 
-before_deploy:
-  - mage release
+before_deploy: "mage release"
 deploy:
   provider: releases
   api_key:
