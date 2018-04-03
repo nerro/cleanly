@@ -4,25 +4,26 @@ language: go
 go:
   - "1.10"
 
+cache:
+  directories:
+    - vendor
+
 install:
   - go get -u github.com/magefile/mage
-  - echo $TRAVIS_TAG
 
-jobs:
-  include:
-    - stage: Test
-      if: (branch = master) AND (env(TRAVIS_TAG) IS blank)
-      script: mage build
-    - stage: GitHub Release
-      if: (branch = master) AND (env(TRAVIS_TAG) NOT blank)
-      script: mage release
-      deploy:
-        provider: releases
-        api_key:
-          secure: ir3NidqSAvQ3m3g/YngJz1zrACOlRsb/PvBKEanEGJO8vHyHQfbHkQzvBy8vPwaizC0s2whMBntOUmlq/KUTWOzT7ilYNxVjXwluenvTTl3OpQZi+akaHSqxDm2SDlrZTyYVIlSCtBM3nIRLJlwLSwcqCvoSRA1Dh3PfYzQjL1by+qMye/NNEXkr6FDjuEhAP8Ai+lFmygcdYRm4udQXT/TaVpIJoPp7o7PIa9EUBWsHTf+srh4qu1jVoB7AGEiyKxtuWgHO00tL42MoQZVjbaxoMkhVu+UVL9ZqvDiPzLzv4Eq5T8Jdm906L8doc//WiCjRyL7mahhpSALmn05vkptS16+RUxxhbeqrWxwGO/FQZR9XqR04AKDWwZXgAxraCLXTEORbaUU2E0gh4L45/0qVaBhiwJ+8iFfDnXUXLH0/LAWqJvHQMptSodKyii+lxIKX7RdBlOepWkgEBbE5PWjBcBLuRnge1EMEhQLXhEFO44EqMlZDodzR2EDcvqkCmO1xKqEXxum5QN2b1PzAX2S1p9xv+A3ny+TN3TFcuvCvLha6ZDtHAdQgkLm14zbsLFuabCfF/ftyzi0RJRLL6+msSjR2wczx/mjXy1hUTiPnhudtJXy74DfuBYXN+OxCrca2sSGPSDq4JAVbc5Oq4WXv39vfu0TSF2SDqfSBaLY=
-        skip_cleanup: true
-        file_glob: true
-        file: build/*
-        on:
-          branch: master
-          tags: true
+script:
+  - mage build
+
+before_deploy:
+  - mage release
+deploy:
+  provider: releases
+  api_key:
+    secure: ir3NidqSAvQ3m3g/YngJz1zrACOlRsb/PvBKEanEGJO8vHyHQfbHkQzvBy8vPwaizC0s2whMBntOUmlq/KUTWOzT7ilYNxVjXwluenvTTl3OpQZi+akaHSqxDm2SDlrZTyYVIlSCtBM3nIRLJlwLSwcqCvoSRA1Dh3PfYzQjL1by+qMye/NNEXkr6FDjuEhAP8Ai+lFmygcdYRm4udQXT/TaVpIJoPp7o7PIa9EUBWsHTf+srh4qu1jVoB7AGEiyKxtuWgHO00tL42MoQZVjbaxoMkhVu+UVL9ZqvDiPzLzv4Eq5T8Jdm906L8doc//WiCjRyL7mahhpSALmn05vkptS16+RUxxhbeqrWxwGO/FQZR9XqR04AKDWwZXgAxraCLXTEORbaUU2E0gh4L45/0qVaBhiwJ+8iFfDnXUXLH0/LAWqJvHQMptSodKyii+lxIKX7RdBlOepWkgEBbE5PWjBcBLuRnge1EMEhQLXhEFO44EqMlZDodzR2EDcvqkCmO1xKqEXxum5QN2b1PzAX2S1p9xv+A3ny+TN3TFcuvCvLha6ZDtHAdQgkLm14zbsLFuabCfF/ftyzi0RJRLL6+msSjR2wczx/mjXy1hUTiPnhudtJXy74DfuBYXN+OxCrca2sSGPSDq4JAVbc5Oq4WXv39vfu0TSF2SDqfSBaLY=
+  skip_cleanup: true
+  file_glob: true
+  file: build/*
+  on:
+    branch: master
+    repo: nerro/cleanly
+    tags: true
